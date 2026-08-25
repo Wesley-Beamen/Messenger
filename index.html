@@ -33,7 +33,7 @@
 
   </div>
 
-  <!-- APP SCREEN (visible only when logged in) -->
+  <!-- APP SCREEN -->
   <div id="app-screen" class="hidden app-layout">
 
     <!-- SIDEBAR -->
@@ -65,30 +65,41 @@
         <button id="send-friend-request">Send Request</button>
       </div>
 
-      <!-- SETTINGS PANEL (updated for sliders) -->
+      <!-- SETTINGS PANEL -->
       <div id="settings-panel" class="panel hidden">
-    <h3>Settings</h3>
+        <h3>Settings</h3>
 
-  <!-- Theme Mode -->
-    <label>Appearance:</label>
+        <label>Appearance:</label>
 
-    <div class="theme-options">
-      <label class="radio-option">
-        <input type="radio" name="theme-mode" value="light" checked>
-      Light Mode
-      </label>
+        <div class="theme-options">
+          <label class="radio-option">
+            <input type="radio" name="theme-mode" value="light" checked>
+            Light Mode
+          </label>
 
-      <label class="radio-option">
-        <input type="radio" name="theme-mode" value="dark">
-      Dark Mode
-    </label>
-  </div>
+          <label class="radio-option">
+            <input type="radio" name="theme-mode" value="dark">
+            Dark Mode
+          </label>
+        </div>
 
-  <!-- Text Size Slider -->
-  <label style="margin-top: 20px;">Text Size:</label>
-  <input id="text-size-slider" type="range" min="14" max="26" value="16">
-</div>
+        <label style="margin-top: 20px;">Text Size:</label>
+        <input id="text-size-slider" type="range" min="14" max="26" value="16">
+      </div>
 
+      <!-- DM CHAT PANEL -->
+      <div id="dm-panel" class="panel hidden">
+        <h3 id="dm-title">Chat</h3>
+
+        <div id="dm-messages" class="messages-area"></div>
+
+        <div class="dm-input-area">
+          <input id="dm-input" type="text" placeholder="Type a message...">
+          <button id="dm-send">Send</button>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <script type="module" src="app.js"></script>
