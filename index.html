@@ -7,6 +7,7 @@
 </head>
 <body>
 
+  <!-- AUTH SCREENS -->
   <div class="container">
 
     <h1>Weasel Messenger</h1>
@@ -32,15 +33,17 @@
 
   </div>
 
-  <!-- APP SCREEN (only visible when logged in) -->
+  <!-- APP SCREEN (visible only when logged in) -->
   <div id="app-screen" class="hidden app-layout">
 
     <!-- SIDEBAR -->
     <div class="sidebar">
       <h2>Menu</h2>
+
       <button class="side-btn" id="profile-btn">Profile</button>
       <button class="side-btn" id="add-friend-btn">Add Friend</button>
       <button class="side-btn" id="settings-btn">Settings</button>
+
       <button class="side-btn logout" id="logout-btn">Logout</button>
     </div>
 
@@ -48,37 +51,29 @@
     <div class="main-content">
       <h2 id="main-title">Welcome to Weasel Messenger</h2>
 
-      <!-- Profile Panel -->
+      <!-- PROFILE PANEL -->
       <div id="profile-panel" class="panel hidden">
         <h3>Your Profile</h3>
         <p id="profile-username"></p>
         <p id="profile-email"></p>
       </div>
 
-      <!-- Add Friend Panel -->
+      <!-- ADD FRIEND PANEL -->
       <div id="add-friend-panel" class="panel hidden">
         <h3>Add Friend</h3>
         <input id="friend-username" type="text" placeholder="Friend username">
         <button id="send-friend-request">Send Request</button>
       </div>
 
-      <!-- Settings Panel -->
+      <!-- SETTINGS PANEL (updated for sliders) -->
       <div id="settings-panel" class="panel hidden">
         <h3>Settings</h3>
 
         <label>Theme Color:</label>
-        <select id="theme-select">
-          <option value="dark">Dark</option>
-          <option value="light">Light</option>
-          <option value="blue">Blue</option>
-        </select>
+        <input id="theme-color" type="color" value="#007aff">
 
-        <label>Text Size:</label>
-        <select id="text-size-select">
-          <option value="normal">Normal</option>
-          <option value="large">Large</option>
-          <option value="xlarge">Extra Large</option>
-        </select>
+        <label style="margin-top: 20px;">Text Size:</label>
+        <input id="text-size-slider" type="range" min="14" max="26" value="16">
       </div>
 
     </div>
