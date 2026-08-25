@@ -2,36 +2,37 @@
 body {
   margin: 0;
   padding: 0;
-  font-family: "Inter", Arial, sans-serif;
-  background: linear-gradient(135deg, #1e1e1e, #2a2a2a);
-  color: #f2f2f2;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", Arial, sans-serif;
+  background: #f2f2f7; /* iOS background */
+  color: #1c1c1e;
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* Smooth fade-in */
+/* Smooth fade */
 * {
   transition: 0.2s ease;
 }
 
 /* ===== AUTH CONTAINER ===== */
 .container {
-  width: 320px;
+  width: 340px;
   margin: 80px auto;
   text-align: center;
 }
 
 h1 {
   font-size: 28px;
+  font-weight: 700;
+  color: #007aff; /* iOS blue */
   margin-bottom: 10px;
-  color: #4fc3f7;
-  text-shadow: 0px 0px 10px #4fc3f7aa;
 }
 
 /* ===== BOXES ===== */
 .box {
-  background: #262626;
+  background: #ffffff;
   padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0px 0px 12px #00000055;
+  border-radius: 16px;
+  box-shadow: 0px 4px 20px rgba(0,0,0,0.08);
   margin-top: 20px;
 }
 
@@ -42,41 +43,42 @@ h1 {
 /* ===== INPUTS ===== */
 input {
   width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  border: none;
-  border-radius: 8px;
-  background: #333;
-  color: #fff;
-  font-size: 15px;
+  padding: 14px;
+  margin: 10px 0;
+  border: 1px solid #d1d1d6;
+  border-radius: 12px;
+  background: #fafafa;
+  font-size: 16px;
 }
 
 input:focus {
-  outline: 2px solid #4fc3f7;
+  outline: none;
+  border-color: #007aff;
+  background: #fff;
 }
 
 /* ===== BUTTONS ===== */
 button {
   width: 100%;
-  padding: 12px;
-  background: #4fc3f7;
+  padding: 14px;
+  background: #007aff;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
-  font-size: 15px;
-  font-weight: bold;
-  color: #111;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
 }
 
 button:hover {
-  background: #81d4fa;
+  background: #0a84ff;
 }
 
 /* ===== SWITCH TEXT ===== */
 .switch span {
-  color: #4fc3f7;
+  color: #007aff;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 /* ===== APP LAYOUT ===== */
@@ -87,42 +89,46 @@ button:hover {
 
 /* ===== SIDEBAR ===== */
 .sidebar {
-  width: 220px;
-  background: #1b1b1b;
+  width: 240px;
+  background: #ffffff;
   padding: 20px;
-  border-right: 2px solid #333;
-  box-shadow: 2px 0px 10px #00000055;
+  border-right: 1px solid #e5e5ea;
+  box-shadow: 2px 0px 20px rgba(0,0,0,0.05);
 }
 
 .sidebar h2 {
   margin-top: 0;
-  color: #4fc3f7;
-  text-shadow: 0px 0px 8px #4fc3f7aa;
+  font-size: 22px;
+  font-weight: 700;
+  color: #007aff;
 }
 
+/* Sidebar buttons */
 .side-btn {
   width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  background: #2e2e2e;
-  color: #eee;
+  padding: 14px;
+  margin: 12px 0;
+  background: #f2f2f7;
+  color: #1c1c1e;
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   cursor: pointer;
   text-align: left;
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .side-btn:hover {
-  background: #3a3a3a;
+  background: #e5e5ea;
 }
 
 .logout {
-  background: #b71c1c;
+  background: #ff3b30;
+  color: white;
 }
 
 .logout:hover {
-  background: #d32f2f;
+  background: #ff453a;
 }
 
 /* ===== MAIN CONTENT ===== */
@@ -133,28 +139,28 @@ button:hover {
 
 #main-title {
   font-size: 26px;
-  color: #4fc3f7;
-  text-shadow: 0px 0px 10px #4fc3f7aa;
+  font-weight: 700;
+  color: #007aff;
 }
 
 /* ===== PANELS ===== */
 .panel {
-  background: #262626;
+  background: #ffffff;
   padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0px 0px 12px #00000055;
+  border-radius: 16px;
+  box-shadow: 0px 4px 20px rgba(0,0,0,0.08);
   margin-top: 20px;
 }
 
 /* ===== THEMES ===== */
 .light-theme {
-  background: #f5f5f5;
-  color: #111;
+  background: #ffffff;
+  color: #1c1c1e;
 }
 
 .blue-theme {
-  background: #0d47a1;
-  color: #fff;
+  background: #eaf2ff;
+  color: #1c1c1e;
 }
 
 /* ===== TEXT SIZE ===== */
