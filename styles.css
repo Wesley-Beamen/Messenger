@@ -16,11 +16,13 @@
   /* Light mode */
   --bg-color-light: #f2f2f7;
   --sidebar-color-light: #ffffff;
+  --panel-color-light: #ffffff;
   --text-color-light: #1c1c1e;
 
   /* Dark mode */
   --bg-color-dark: #1c1c1e;
   --sidebar-color-dark: #2c2c2e;
+  --panel-color-dark: #3a3a3c;
   --text-color-dark: #f2f2f7;
 }
 
@@ -312,7 +314,9 @@ button:active {
 
 .panel {
   width: 100%;
-  background: #ffffff;
+  background: var(--panel-color-light);
+  color: inherit;
+
   padding: 24px;
   border-radius: 18px;
   border: 1px solid rgba(0, 0, 0, 0.05);
