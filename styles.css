@@ -1,0 +1,74 @@
+/* Layout */
+.app-layout {
+  display: flex;
+  height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 200px;
+  background: #1a1a1a;
+  padding: 20px;
+  border-right: 2px solid #333;
+}
+
+.side-btn {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  background: #333;
+  color: #eee;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.side-btn:hover {
+  background: #444;
+}
+
+.logout {
+  background: #b71c1c;
+}
+
+.logout:hover {
+  background: #d32f2f;
+}
+
+/* Main content */
+.main-content {
+  flex: 1;
+  padding: 20px;
+}
+
+/* Panels */
+.panel {
+  background: #222;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Themes */
+.light-theme {
+  background: #f5f5f5;
+  color: #111;
+}
+
+.blue-theme {
+  background: #0d47a1;
+  color: #fff;
+}
+
+/* Text sizes */
+.text-large {
+  font-size: 20px;
+}
+
+.text-xlarge {
+  font-size: 26px;
+}
