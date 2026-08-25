@@ -47,9 +47,9 @@ const profileBtn = document.getElementById("profile-btn");
 const addFriendBtn = document.getElementById("add-friend-btn");
 const settingsBtn = document.getElementById("settings-btn");
 
-// Settings sliders
-const themeColorInput = document.getElementById("theme-color");
+// Settings controls
 const textSizeSlider = document.getElementById("text-size-slider");
+const themeRadios = document.querySelectorAll("input[name='theme-mode']");
 
 // Switch screens (login <-> signup)
 document.getElementById("show-signup").onclick = () => {
@@ -62,7 +62,7 @@ document.getElementById("show-login").onclick = () => {
   loginBox.classList.remove("hidden");
 };
 
-// AUTO LOGIN (Firebase remembers the user)
+// AUTO LOGIN
 onAuthStateChanged(auth, async user => {
   if (user) {
     loginBox.classList.add("hidden");
@@ -158,19 +158,27 @@ settingsBtn.onclick = () => {
   settingsBtn.classList.add("active");
 };
 
-// THEME COLOR SPECTRUM
-themeColorInput.oninput = (e) => {
-  const color = e.target.value;
-  document.documentElement.style.setProperty("--accent-color", color);
-
-  // Update buttons instantly
-  document.querySelectorAll("button").forEach(btn => {
-    btn.style.background = color;
-  });
-};
-
 // TEXT SIZE SLIDER
 textSizeSlider.oninput = (e) => {
   const size = e.target.value + "px";
   document.body.style.fontSize = size;
 };
+
+// THEME MODE RADIO BUTTONS
+themeRadios.forEach(radio => {
+  radio.onchange = (e) => {
+    const mode = e.target.value;
+
+    if (mode === "light") {
+      document.body.style.background = "var(--bg-color-light)";
+      document.body.style.color = "var(--text-color-light)";
+      document.querySelector(".sidebar").style.background = "var(--sidebar-color-light)";
+    }
+
+    if (mode === "dark") {
+      document.body.style.background = "var(--bg-color-dark)";
+      document.body.style.color = "var(--text-color-dark)";
+      document.querySelector(".sidebar").style.background = "var(--sidebar-color-dark)";
+    }
+  };
+});
