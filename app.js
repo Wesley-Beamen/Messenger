@@ -42,7 +42,7 @@ const profilePanel = document.getElementById("profile-panel");
 const addFriendPanel = document.getElementById("add-friend-panel");
 const settingsPanel = document.getElementById("settings-panel");
 
-// Switch screens
+// Switch screens (login <-> signup)
 document.getElementById("show-signup").onclick = () => {
   loginBox.classList.add("hidden");
   signupBox.classList.remove("hidden");
@@ -53,21 +53,28 @@ document.getElementById("show-login").onclick = () => {
   loginBox.classList.remove("hidden");
 };
 
-// AUTO LOGIN
+// AUTO LOGIN (Firebase remembers the user)
 onAuthStateChanged(auth, async user => {
   if (user) {
+    // Hide login/signup
     loginBox.classList.add("hidden");
     signupBox.classList.add("hidden");
+
+    // Show app
     appScreen.classList.remove("hidden");
 
-    // Load profile
+    // Load profile data
     const snap = await getDoc(doc(db, "users", user.uid));
     if (snap.exists()) {
-      document.getElementById("profile-username").innerText = "Username: " + snap.data().username;
-      document.getElementById("profile-email").innerText = "Email: " + snap.data().email;
+      document.getElementById("profile-username").innerText =
+        "Username: " + snap.data().username;
+
+      document.getElementById("profile-email").innerText =
+        "Email: " + snap.data().email;
     }
 
   } else {
+    // Logged out → show login screen
     appScreen.classList.add("hidden");
     loginBox.classList.remove("hidden");
   }
@@ -83,6 +90,7 @@ document.getElementById("signup-btn").onclick = async () => {
     const userCred = await createUserWithEmailAndPassword(auth, email, password);
     const uid = userCred.user.uid;
 
+    // Create Firestore profile
     await setDoc(doc(db, "users", uid), {
       username,
       email,
@@ -93,6 +101,7 @@ document.getElementById("signup-btn").onclick = async () => {
     });
 
     alert("Account created!");
+
   } catch (error) {
     alert(error.message);
   }
@@ -131,13 +140,14 @@ document.getElementById("settings-btn").onclick = () => {
   settingsPanel.classList.remove("hidden");
 };
 
+// Hide all panels
 function hidePanels() {
   profilePanel.classList.add("hidden");
   addFriendPanel.classList.add("hidden");
   settingsPanel.classList.add("hidden");
 }
 
-// Settings
+// SETTINGS — Theme
 document.getElementById("theme-select").onchange = (e) => {
   const theme = e.target.value;
 
@@ -147,6 +157,7 @@ document.getElementById("theme-select").onchange = (e) => {
   if (theme === "blue") document.body.classList.add("blue-theme");
 };
 
+// SETTINGS — Text size
 document.getElementById("text-size-select").onchange = (e) => {
   const size = e.target.value;
 
