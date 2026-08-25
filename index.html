@@ -1,0 +1,78 @@
+<div class="container">
+
+  <h1>Weasel Messenger</h1>
+
+  <!-- LOGIN -->
+  <div id="login-box" class="box">
+    <h2>Login</h2>
+    <input id="login-email" type="email" placeholder="Email">
+    <input id="login-password" type="password" placeholder="Password">
+    <button id="login-btn">Login</button>
+    <p class="switch">No account? <span id="show-signup">Sign up</span></p>
+  </div>
+
+  <!-- SIGNUP -->
+  <div id="signup-box" class="box hidden">
+    <h2>Sign Up</h2>
+    <input id="signup-email" type="email" placeholder="Email">
+    <input id="signup-password" type="password" placeholder="Password">
+    <input id="signup-username" type="text" placeholder="Username">
+    <button id="signup-btn">Create Account</button>
+    <p class="switch">Already have an account? <span id="show-login">Login</span></p>
+  </div>
+
+</div>
+
+<!-- APP SCREEN -->
+<div id="app-screen" class="hidden app-layout">
+
+  <!-- SIDEBAR -->
+  <div class="sidebar">
+    <h2>Menu</h2>
+    <button class="side-btn" id="profile-btn">Profile</button>
+    <button class="side-btn" id="add-friend-btn">Add Friend</button>
+    <button class="side-btn" id="settings-btn">Settings</button>
+    <button class="side-btn logout" id="logout-btn">Logout</button>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <h2 id="main-title">Welcome to Weasel Messenger</h2>
+
+    <!-- Profile Panel -->
+    <div id="profile-panel" class="panel hidden">
+      <h3>Your Profile</h3>
+      <p id="profile-username"></p>
+      <p id="profile-email"></p>
+    </div>
+
+    <!-- Add Friend Panel -->
+    <div id="add-friend-panel" class="panel hidden">
+      <h3>Add Friend</h3>
+      <input id="friend-username" type="text" placeholder="Friend username">
+      <button id="send-friend-request">Send Request</button>
+    </div>
+
+    <!-- Settings Panel -->
+    <div id="settings-panel" class="panel hidden">
+      <h3>Settings</h3>
+
+      <label>Theme Color:</label>
+      <select id="theme-select">
+        <option value="dark">Dark</option>
+        <option value="light">Light</option>
+        <option value="blue">Blue</option>
+      </select>
+
+      <label>Text Size:</label>
+      <select id="text-size-select">
+        <option value="normal">Normal</option>
+        <option value="large">Large</option>
+        <option value="xlarge">Extra Large</option>
+      </select>
+    </div>
+
+  </div>
+</div>
+
+<script type="module" src="app.js"></script>
