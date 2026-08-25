@@ -173,12 +173,22 @@ themeRadios.forEach(radio => {
       document.body.style.background = "var(--bg-color-light)";
       document.body.style.color = "var(--text-color-light)";
       document.querySelector(".sidebar").style.background = "var(--sidebar-color-light)";
+
+      document.querySelectorAll(".panel").forEach(p => {
+        p.style.background = "var(--panel-color-light)";
+        p.style.color = "var(--text-color-light)";
+      });
     }
 
     if (mode === "dark") {
       document.body.style.background = "var(--bg-color-dark)";
       document.body.style.color = "var(--text-color-dark)";
       document.querySelector(".sidebar").style.background = "var(--sidebar-color-dark)";
+
+      document.querySelectorAll(".panel").forEach(p => {
+        p.style.background = "var(--panel-color-dark)";
+        p.style.color = "var(--text-color-dark)";
+      });
     }
   };
 });
