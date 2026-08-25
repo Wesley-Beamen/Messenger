@@ -67,16 +67,28 @@
 
       <!-- SETTINGS PANEL (updated for sliders) -->
       <div id="settings-panel" class="panel hidden">
-        <h3>Settings</h3>
+    <h3>Settings</h3>
 
-        <label>Theme Color:</label>
-        <input id="theme-color" type="color" value="#007aff">
+  <!-- Theme Mode -->
+    <label>Appearance:</label>
 
-        <label style="margin-top: 20px;">Text Size:</label>
-        <input id="text-size-slider" type="range" min="14" max="26" value="16">
-      </div>
+    <div class="theme-options">
+      <label class="radio-option">
+        <input type="radio" name="theme-mode" value="light" checked>
+      Light Mode
+      </label>
 
-    </div>
+      <label class="radio-option">
+        <input type="radio" name="theme-mode" value="dark">
+      Dark Mode
+    </label>
+  </div>
+
+  <!-- Text Size Slider -->
+  <label style="margin-top: 20px;">Text Size:</label>
+  <input id="text-size-slider" type="range" min="14" max="26" value="16">
+</div>
+
   </div>
 
   <script type="module" src="app.js"></script>
