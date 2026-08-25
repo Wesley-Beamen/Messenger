@@ -1,5 +1,5 @@
 /* =========================================================
-   APPLE MESSAGES / iOS STYLE
+   APPLE MESSAGES / iOS STYLE — UPDATED
    ========================================================= */
 
 /* ===== GLOBAL ===== */
@@ -10,12 +10,16 @@
   padding: 0;
 }
 
+:root {
+  --accent-color: #007aff;
+}
+
 body {
   font-family:
     -apple-system,
     BlinkMacSystemFont,
-    "SF Pro Display",
     "SF Pro Text",
+    "SF Pro Display",
     "Helvetica Neue",
     Arial,
     sans-serif;
@@ -24,10 +28,9 @@ body {
   color: #1c1c1e;
 
   -webkit-font-smoothing: antialiased;
-  transition: background 0.25s ease, color 0.25s ease;
+  transition: background 0.25s ease, color 0.25s ease, font-size 0.25s ease;
 }
 
-/* Only animate interactive elements */
 button,
 input,
 .side-btn,
@@ -52,12 +55,11 @@ input,
 .container {
   width: min(380px, calc(100% - 32px));
   margin: 90px auto 40px;
-
   text-align: center;
 }
 
 
-/* ===== TITLE ===== */
+/* ===== TITLE (NO BLUE) ===== */
 
 h1 {
   font-size: 32px;
@@ -65,8 +67,7 @@ h1 {
   font-weight: 700;
   letter-spacing: -0.7px;
 
-  color: #007aff;
-
+  color: #1c1c1e; /* Apple dark text */
   margin-bottom: 24px;
 }
 
@@ -77,13 +78,9 @@ h1 {
 
 .box {
   width: 100%;
-
   background: rgba(255, 255, 255, 0.96);
-
   padding: 24px;
-
   border-radius: 20px;
-
   border: 1px solid rgba(0, 0, 0, 0.06);
 
   box-shadow:
@@ -91,7 +88,6 @@ h1 {
     0 12px 35px rgba(0, 0, 0, 0.05);
 
   margin-top: 20px;
-
   text-align: left;
 }
 
@@ -102,34 +98,22 @@ h1 {
 
 input {
   display: block;
-
   width: 100%;
-  max-width: 100%;
-
   height: 48px;
-
   padding: 0 15px;
-
   margin: 12px 0;
 
   border: 1px solid #d1d1d6;
-
   border-radius: 12px;
 
   background: #f9f9fb;
-
   color: #1c1c1e;
 
-  font-family: inherit;
   font-size: 16px;
   line-height: 48px;
 
   outline: none;
-
-  box-sizing: border-box;
-
   appearance: none;
-  -webkit-appearance: none;
 }
 
 input::placeholder {
@@ -143,8 +127,7 @@ input:hover {
 
 input:focus {
   background: #ffffff;
-
-  border-color: #007aff;
+  border-color: var(--accent-color);
 
   box-shadow:
     0 0 0 3px rgba(0, 122, 255, 0.14);
@@ -157,37 +140,24 @@ input:focus {
 
 button {
   display: block;
-
   width: 100%;
-  max-width: 100%;
-
   height: 48px;
-
   padding: 0 16px;
-
   margin-top: 14px;
 
-  background: #007aff;
-
+  background: var(--accent-color);
   border: none;
   border-radius: 12px;
 
   color: #ffffff;
-
-  font-family: inherit;
   font-size: 16px;
   font-weight: 600;
 
   cursor: pointer;
-
-  box-sizing: border-box;
-
-  -webkit-tap-highlight-color: transparent;
 }
 
 button:hover {
-  background: #0a84ff;
-
+  opacity: 0.9;
   box-shadow:
     0 4px 12px rgba(0, 122, 255, 0.22);
 }
@@ -204,19 +174,14 @@ button:active {
 
 .switch {
   margin-top: 18px;
-
   text-align: center;
-
   color: #8e8e93;
-
   font-size: 14px;
 }
 
 .switch span {
-  color: #007aff;
-
+  color: var(--accent-color);
   cursor: pointer;
-
   font-weight: 600;
 }
 
@@ -231,12 +196,9 @@ button:active {
 
 .app-layout {
   display: flex;
-
   width: 100%;
   height: 100vh;
-
   overflow: hidden;
-
   background: #f2f2f7;
 }
 
@@ -248,20 +210,15 @@ button:active {
 .sidebar {
   width: 250px;
   min-width: 250px;
-
   height: 100vh;
 
   padding: 24px 16px;
 
   background: rgba(255, 255, 255, 0.92);
-
   border-right: 1px solid #d1d1d6;
 
-  box-shadow:
-    2px 0 12px rgba(0, 0, 0, 0.03);
-
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.03);
   backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
 }
 
 
@@ -269,12 +226,9 @@ button:active {
 
 .sidebar h2 {
   margin: 4px 12px 24px;
-
   font-size: 22px;
   font-weight: 700;
-
   letter-spacing: -0.3px;
-
   color: #1c1c1e;
 }
 
@@ -285,70 +239,42 @@ button:active {
 
 .side-btn {
   display: flex;
-
   align-items: center;
 
   width: 100%;
-
   min-height: 46px;
 
   padding: 0 14px;
-
   margin: 5px 0;
 
   background: transparent;
-
   color: #1c1c1e;
 
   border: none;
   border-radius: 12px;
 
   cursor: pointer;
-
-  text-align: left;
-
-  font-family: inherit;
   font-size: 16px;
   font-weight: 500;
-
-  box-sizing: border-box;
 }
 
 .side-btn:hover {
   background: #f2f2f7;
 }
 
-.side-btn:active {
-  transform: scale(0.98);
-}
-
-
-/* ===== ACTIVE SIDEBAR BUTTON ===== */
-
 .side-btn.active {
-  background: #007aff;
+  background: var(--accent-color);
   color: white;
 }
 
-.side-btn.active:hover {
-  background: #0a84ff;
-}
-
-
-/* ===== LOGOUT ===== */
-
 .logout {
   margin-top: 20px;
-
   background: #fff0ef;
-
   color: #ff3b30;
 }
 
 .logout:hover {
   background: #ffe3e1;
-
-  color: #ff3b30;
 }
 
 
@@ -358,31 +284,16 @@ button:active {
 
 .main-content {
   flex: 1;
-
   min-width: 0;
-
   height: 100vh;
-
   padding: 32px;
-
   overflow-y: auto;
-
-  background: #f2f2f7;
 }
 
-
-/* ===== MAIN TITLE ===== */
-
 #main-title {
-  margin: 0;
-
   font-size: 28px;
-  line-height: 1.2;
-
   font-weight: 700;
-
   letter-spacing: -0.5px;
-
   color: #1c1c1e;
 }
 
@@ -393,13 +304,9 @@ button:active {
 
 .panel {
   width: 100%;
-
   background: #ffffff;
-
   padding: 24px;
-
   border-radius: 18px;
-
   border: 1px solid rgba(0, 0, 0, 0.05);
 
   box-shadow:
@@ -407,82 +314,73 @@ button:active {
     0 10px 30px rgba(0, 0, 0, 0.04);
 
   margin-top: 20px;
-
-  box-sizing: border-box;
 }
 
 
 /* =========================================================
-   iMESSAGE-STYLE ELEMENTS
+   COLOR SPECTRUM SLIDER
    ========================================================= */
 
-/* Blue bubble */
+input[type="color"] {
+  width: 100%;
+  height: 40px;
+  border-radius: 12px;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   TEXT SIZE SLIDER
+   ========================================================= */
+
+input[type="range"] {
+  width: 100%;
+  margin-top: 12px;
+  background: transparent;
+  -webkit-appearance: none;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 6px;
+  background: #d1d1d6;
+  border-radius: 3px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 22px;
+  width: 22px;
+  background: var(--accent-color);
+  border-radius: 50%;
+  margin-top: -8px;
+}
+
+
+/* =========================================================
+   iMESSAGE BUBBLES
+   ========================================================= */
 
 .message-blue {
   display: inline-block;
-
   max-width: 75%;
-
   padding: 10px 15px;
-
   border-radius: 18px 18px 4px 18px;
-
-  background: #007aff;
-
+  background: var(--accent-color);
   color: white;
-
   font-size: 16px;
-  line-height: 1.35;
 }
-
-
-/* Gray bubble */
 
 .message-gray {
   display: inline-block;
-
   max-width: 75%;
-
   padding: 10px 15px;
-
   border-radius: 18px 18px 18px 4px;
-
   background: #e5e5ea;
-
   color: #1c1c1e;
-
   font-size: 16px;
-  line-height: 1.35;
-}
-
-
-/* =========================================================
-   THEMES
-   ========================================================= */
-
-.light-theme {
-  background: #f2f2f7;
-  color: #1c1c1e;
-}
-
-.blue-theme {
-  background: #eef5ff;
-  color: #1c1c1e;
-}
-
-
-/* =========================================================
-   TEXT SIZES
-   ========================================================= */
-
-.text-large {
-  font-size: 18px;
-  line-height: 1.4;
-}
-
-.text-xlarge {
-  font-size: 22px;
-  line-height: 1.3;
 }
 
 
@@ -492,10 +390,6 @@ button:active {
 
 ::-webkit-scrollbar {
   width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -513,68 +407,25 @@ button:active {
    ========================================================= */
 
 @media (max-width: 700px) {
-
-  .container {
-    margin-top: 50px;
-
-    width: calc(100% - 28px);
-  }
-
-  h1 {
-    font-size: 28px;
-  }
-
-  .box {
-    padding: 20px;
-
-    border-radius: 18px;
-  }
-
   .app-layout {
     flex-direction: column;
   }
 
   .sidebar {
     width: 100%;
-    min-width: 0;
-
     height: auto;
-
-    padding: 12px;
-
     border-right: none;
     border-bottom: 1px solid #d1d1d6;
   }
 
-  .sidebar h2 {
-    margin: 6px 8px 10px;
-  }
-
   .side-btn {
     display: inline-flex;
-
     width: auto;
-
     margin: 3px;
-
     padding: 0 12px;
   }
 
-  .logout {
-    margin-top: 5px;
-  }
-
   .main-content {
-    padding: 20px;
-
-    height: auto;
-  }
-
-  #main-title {
-    font-size: 24px;
-  }
-
-  .panel {
     padding: 20px;
   }
 }
@@ -585,7 +436,6 @@ button:active {
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-
   *,
   *::before,
   *::after {
