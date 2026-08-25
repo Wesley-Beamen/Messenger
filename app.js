@@ -42,6 +42,15 @@ const profilePanel = document.getElementById("profile-panel");
 const addFriendPanel = document.getElementById("add-friend-panel");
 const settingsPanel = document.getElementById("settings-panel");
 
+// Sidebar buttons
+const profileBtn = document.getElementById("profile-btn");
+const addFriendBtn = document.getElementById("add-friend-btn");
+const settingsBtn = document.getElementById("settings-btn");
+
+// Settings sliders
+const themeColorInput = document.getElementById("theme-color");
+const textSizeSlider = document.getElementById("text-size-slider");
+
 // Switch screens (login <-> signup)
 document.getElementById("show-signup").onclick = () => {
   loginBox.classList.add("hidden");
@@ -56,11 +65,8 @@ document.getElementById("show-login").onclick = () => {
 // AUTO LOGIN (Firebase remembers the user)
 onAuthStateChanged(auth, async user => {
   if (user) {
-    // Hide login/signup
     loginBox.classList.add("hidden");
     signupBox.classList.add("hidden");
-
-    // Show app
     appScreen.classList.remove("hidden");
 
     // Load profile data
@@ -74,7 +80,6 @@ onAuthStateChanged(auth, async user => {
     }
 
   } else {
-    // Logged out → show login screen
     appScreen.classList.add("hidden");
     loginBox.classList.remove("hidden");
   }
@@ -90,7 +95,6 @@ document.getElementById("signup-btn").onclick = async () => {
     const userCred = await createUserWithEmailAndPassword(auth, email, password);
     const uid = userCred.user.uid;
 
-    // Create Firestore profile
     await setDoc(doc(db, "users", uid), {
       username,
       email,
@@ -124,45 +128,49 @@ document.getElementById("logout-btn").onclick = () => {
   signOut(auth);
 };
 
-// Sidebar buttons
-document.getElementById("profile-btn").onclick = () => {
-  hidePanels();
-  profilePanel.classList.remove("hidden");
-};
-
-document.getElementById("add-friend-btn").onclick = () => {
-  hidePanels();
-  addFriendPanel.classList.remove("hidden");
-};
-
-document.getElementById("settings-btn").onclick = () => {
-  hidePanels();
-  settingsPanel.classList.remove("hidden");
-};
-
 // Hide all panels
 function hidePanels() {
   profilePanel.classList.add("hidden");
   addFriendPanel.classList.add("hidden");
   settingsPanel.classList.add("hidden");
+
+  profileBtn.classList.remove("active");
+  addFriendBtn.classList.remove("active");
+  settingsBtn.classList.remove("active");
 }
 
-// SETTINGS — Theme
-document.getElementById("theme-select").onchange = (e) => {
-  const theme = e.target.value;
-
-  document.body.classList.remove("light-theme", "blue-theme");
-
-  if (theme === "light") document.body.classList.add("light-theme");
-  if (theme === "blue") document.body.classList.add("blue-theme");
+// Sidebar button logic
+profileBtn.onclick = () => {
+  hidePanels();
+  profilePanel.classList.remove("hidden");
+  profileBtn.classList.add("active");
 };
 
-// SETTINGS — Text size
-document.getElementById("text-size-select").onchange = (e) => {
-  const size = e.target.value;
+addFriendBtn.onclick = () => {
+  hidePanels();
+  addFriendPanel.classList.remove("hidden");
+  addFriendBtn.classList.add("active");
+};
 
-  document.body.classList.remove("text-large", "text-xlarge");
+settingsBtn.onclick = () => {
+  hidePanels();
+  settingsPanel.classList.remove("hidden");
+  settingsBtn.classList.add("active");
+};
 
-  if (size === "large") document.body.classList.add("text-large");
-  if (size === "xlarge") document.body.classList.add("text-xlarge");
+// THEME COLOR SPECTRUM
+themeColorInput.oninput = (e) => {
+  const color = e.target.value;
+  document.documentElement.style.setProperty("--accent-color", color);
+
+  // Update buttons instantly
+  document.querySelectorAll("button").forEach(btn => {
+    btn.style.background = color;
+  });
+};
+
+// TEXT SIZE SLIDER
+textSizeSlider.oninput = (e) => {
+  const size = e.target.value + "px";
+  document.body.style.fontSize = size;
 };
