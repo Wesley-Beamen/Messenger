@@ -382,4 +382,16 @@ document.getElementById("dm-send").onclick = async () => {
   });
 
   input.value = "";
+
+  const area = document.getElementById("dm-messages");
+  area.scrollTop = area.scrollHeight;
 };
+
+
+// ENTER TO SEND
+document.getElementById("dm-input").addEventListener("keydown", async (e) => {
+  if (e.key === "Enter") {
+    e.preventDefault();
+    document.getElementById("dm-send").click();
+  }
+});
