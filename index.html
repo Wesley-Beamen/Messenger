@@ -42,6 +42,7 @@
 
       <button class="side-btn" id="profile-btn">Profile</button>
       <button class="side-btn" id="add-friend-btn">Add Friend</button>
+      <button class="side-btn" id="messages-btn">Messages</button>
       <button class="side-btn" id="settings-btn">Settings</button>
 
       <button class="side-btn logout" id="logout-btn">Logout</button>
@@ -85,6 +86,32 @@
 
         <label style="margin-top: 20px;">Text Size:</label>
         <input id="text-size-slider" type="range" min="14" max="26" value="16">
+      </div>
+
+      <!-- MESSAGES PANEL (Conversation List) -->
+      <div id="messages-panel" class="panel hidden">
+        <h3>Messages</h3>
+
+        <button id="new-chat-btn" style="margin-bottom: 15px;">New Chat</button>
+
+        <div id="conversation-list">
+          <!-- JS will fill this with DM + room conversations -->
+        </div>
+      </div>
+
+      <!-- NEW CHAT PANEL -->
+      <div id="new-chat-panel" class="panel hidden">
+        <h3>Start a New Chat</h3>
+
+        <label>Search by username:</label>
+        <input id="new-chat-search" type="text" placeholder="Enter username">
+
+        <button id="new-chat-start">Start Chat</button>
+
+        <h4 style="margin-top: 20px;">Or choose a friend:</h4>
+        <div id="new-chat-friends">
+          <!-- JS will fill this with friend list -->
+        </div>
       </div>
 
       <!-- DM CHAT PANEL -->
