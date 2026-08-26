@@ -1,6 +1,6 @@
 // Firebase imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { 
+import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -13,8 +13,15 @@ import {
   doc,
   setDoc,
   getDoc,
-  serverTimestamp
+  getDocs,
+  collection,
+  query,
+  where,
+  orderBy,
+  serverTimestamp,
+  onSnapshot
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
 
 // Firebase config
 const firebaseConfig = {
@@ -27,10 +34,11 @@ const firebaseConfig = {
   measurementId: "G-W1CD52FVK0"
 };
 
-// Initialize Firebase
+// Init Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
+
 
 // UI elements
 const loginBox = document.getElementById("login-box");
@@ -41,17 +49,26 @@ const appScreen = document.getElementById("app-screen");
 const profilePanel = document.getElementById("profile-panel");
 const addFriendPanel = document.getElementById("add-friend-panel");
 const settingsPanel = document.getElementById("settings-panel");
+const messagesPanel = document.getElementById("messages-panel");
+const newChatPanel = document.getElementById("new-chat-panel");
+const dmPanel = document.getElementById("dm-panel");
 
 // Sidebar buttons
 const profileBtn = document.getElementById("profile-btn");
 const addFriendBtn = document.getElementById("add-friend-btn");
+const messagesBtn = document.getElementById("messages-btn");
 const settingsBtn = document.getElementById("settings-btn");
 
 // Settings controls
 const textSizeSlider = document.getElementById("text-size-slider");
 const themeRadios = document.querySelectorAll("input[name='theme-mode']");
 
-// Switch screens (login <-> signup)
+// DM chat globals
+let currentChatId = null;
+let unsubscribeDM = null;
+
+
+// Switch login/signup
 document.getElementById("show-signup").onclick = () => {
   loginBox.classList.add("hidden");
   signupBox.classList.remove("hidden");
@@ -62,6 +79,7 @@ document.getElementById("show-login").onclick = () => {
   loginBox.classList.remove("hidden");
 };
 
+
 // AUTO LOGIN
 onAuthStateChanged(auth, async user => {
   if (user) {
@@ -69,21 +87,21 @@ onAuthStateChanged(auth, async user => {
     signupBox.classList.add("hidden");
     appScreen.classList.remove("hidden");
 
-    // Load profile data
     const snap = await getDoc(doc(db, "users", user.uid));
     if (snap.exists()) {
       document.getElementById("profile-username").innerText =
         "Username: " + snap.data().username;
-
       document.getElementById("profile-email").innerText =
         "Email: " + snap.data().email;
     }
 
+    loadConversationList();
   } else {
     appScreen.classList.add("hidden");
     loginBox.classList.remove("hidden");
   }
 });
+
 
 // SIGNUP
 document.getElementById("signup-btn").onclick = async () => {
@@ -98,18 +116,16 @@ document.getElementById("signup-btn").onclick = async () => {
     await setDoc(doc(db, "users", uid), {
       username,
       email,
-      createdAt: serverTimestamp(),
       friends: [],
-      description: "",
-      lastOnline: serverTimestamp()
+      createdAt: serverTimestamp()
     });
 
     alert("Account created!");
-
   } catch (error) {
     alert(error.message);
   }
 };
+
 
 // LOGIN
 document.getElementById("login-btn").onclick = async () => {
@@ -123,23 +139,30 @@ document.getElementById("login-btn").onclick = async () => {
   }
 };
 
+
 // LOGOUT
 document.getElementById("logout-btn").onclick = () => {
   signOut(auth);
 };
+
 
 // Hide all panels
 function hidePanels() {
   profilePanel.classList.add("hidden");
   addFriendPanel.classList.add("hidden");
   settingsPanel.classList.add("hidden");
+  messagesPanel.classList.add("hidden");
+  newChatPanel.classList.add("hidden");
+  dmPanel.classList.add("hidden");
 
   profileBtn.classList.remove("active");
   addFriendBtn.classList.remove("active");
   settingsBtn.classList.remove("active");
+  messagesBtn.classList.remove("active");
 }
 
-// Sidebar button logic
+
+// Sidebar buttons
 profileBtn.onclick = () => {
   hidePanels();
   profilePanel.classList.remove("hidden");
@@ -158,37 +181,205 @@ settingsBtn.onclick = () => {
   settingsBtn.classList.add("active");
 };
 
-// TEXT SIZE SLIDER
-textSizeSlider.oninput = (e) => {
-  const size = e.target.value + "px";
-  document.body.style.fontSize = size;
+messagesBtn.onclick = () => {
+  hidePanels();
+  messagesPanel.classList.remove("hidden");
+  messagesBtn.classList.add("active");
+  loadConversationList();
 };
 
-// THEME MODE RADIO BUTTONS
+
+// TEXT SIZE
+textSizeSlider.oninput = (e) => {
+  document.body.style.fontSize = e.target.value + "px";
+};
+
+
+// THEME MODE
 themeRadios.forEach(radio => {
   radio.onchange = (e) => {
     const mode = e.target.value;
 
-    if (mode === "light") {
-      document.body.style.background = "var(--bg-color-light)";
-      document.body.style.color = "var(--text-color-light)";
-      document.querySelector(".sidebar").style.background = "var(--sidebar-color-light)";
+    const body = document.body;
+    const sidebar = document.querySelector(".sidebar");
+    const panels = document.querySelectorAll(".panel");
 
-      document.querySelectorAll(".panel").forEach(p => {
+    if (mode === "light") {
+      body.style.background = "var(--bg-color-light)";
+      body.style.color = "var(--text-color-light)";
+      sidebar.style.background = "var(--sidebar-color-light)";
+      panels.forEach(p => {
         p.style.background = "var(--panel-color-light)";
         p.style.color = "var(--text-color-light)";
       });
     }
 
     if (mode === "dark") {
-      document.body.style.background = "var(--bg-color-dark)";
-      document.body.style.color = "var(--text-color-dark)";
-      document.querySelector(".sidebar").style.background = "var(--sidebar-color-dark)";
-
-      document.querySelectorAll(".panel").forEach(p => {
+      body.style.background = "var(--bg-color-dark)";
+      body.style.color = "var(--text-color-dark)";
+      sidebar.style.background = "var(--sidebar-color-dark)";
+      panels.forEach(p => {
         p.style.background = "var(--panel-color-dark)";
         p.style.color = "var(--text-color-dark)";
       });
     }
   };
 });
+
+
+// LOAD CONVERSATION LIST
+async function loadConversationList() {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const list = document.getElementById("conversation-list");
+  list.innerHTML = "Loading...";
+
+  const chatsRef = collection(db, "dmChats");
+  const q = query(chatsRef);
+
+  const snap = await getDocs(q);
+
+  list.innerHTML = "";
+
+  snap.forEach(chatDoc => {
+    const chatId = chatDoc.id;
+    if (!chatId.includes(user.uid)) return;
+
+    const otherUid = chatId.replace(user.uid, "").replace("_", "");
+
+    loadConversationEntry(otherUid, chatId);
+  });
+}
+
+
+// LOAD EACH CONVERSATION ENTRY
+async function loadConversationEntry(otherUid, chatId) {
+  const list = document.getElementById("conversation-list");
+
+  const userSnap = await getDoc(doc(db, "users", otherUid));
+  if (!userSnap.exists()) return;
+
+  const username = userSnap.data().username;
+
+  const div = document.createElement("div");
+  div.className = "conversation-entry";
+  div.innerText = username;
+
+  div.onclick = () => {
+    openDMChat(otherUid, username);
+  };
+
+  list.appendChild(div);
+}
+
+
+// NEW CHAT BUTTON
+document.getElementById("new-chat-btn").onclick = () => {
+  hidePanels();
+  newChatPanel.classList.remove("hidden");
+  loadNewChatFriends();
+};
+
+
+// LOAD FRIEND LIST INTO NEW CHAT PANEL
+async function loadNewChatFriends() {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const snap = await getDoc(doc(db, "users", user.uid));
+  const friends = snap.data().friends || [];
+
+  const container = document.getElementById("new-chat-friends");
+  container.innerHTML = "";
+
+  for (let uid of friends) {
+    const friendSnap = await getDoc(doc(db, "users", uid));
+    if (!friendSnap.exists()) continue;
+
+    const div = document.createElement("div");
+    div.className = "conversation-entry";
+    div.innerText = friendSnap.data().username;
+
+    div.onclick = () => {
+      openDMChat(uid, friendSnap.data().username);
+    };
+
+    container.appendChild(div);
+  }
+}
+
+
+// START CHAT BY USERNAME
+document.getElementById("new-chat-start").onclick = async () => {
+  const username = document.getElementById("new-chat-search").value.trim();
+  if (!username) return;
+
+  const usersRef = collection(db, "users");
+  const q = query(usersRef, where("username", "==", username));
+  const snap = await getDocs(q);
+
+  if (snap.empty) {
+    alert("User not found");
+    return;
+  }
+
+  const otherUid = snap.docs[0].id;
+  openDMChat(otherUid, username);
+};
+
+
+// OPEN DM CHAT
+async function openDMChat(otherUid, otherUsername) {
+  const user = auth.currentUser;
+  if (!user) return;
+
+  const chatId = [user.uid, otherUid].sort().join("_");
+  currentChatId = chatId;
+
+  hidePanels();
+  dmPanel.classList.remove("hidden");
+  document.getElementById("dm-title").innerText = "Chat with " + otherUsername;
+
+  if (unsubscribeDM) unsubscribeDM();
+
+  const messagesRef = collection(db, "dmChats", chatId, "messages");
+  const q = query(messagesRef, orderBy("timestamp"));
+
+  unsubscribeDM = onSnapshot(q, (snap) => {
+    const area = document.getElementById("dm-messages");
+    area.innerHTML = "";
+
+    snap.forEach(doc => {
+      const msg = doc.data();
+      const bubble = document.createElement("div");
+
+      bubble.className = msg.sender === user.uid ? "message-blue" : "message-gray";
+      bubble.innerText = msg.text;
+
+      area.appendChild(bubble);
+    });
+
+    area.scrollTop = area.scrollHeight;
+  });
+}
+
+
+// SEND MESSAGE
+document.getElementById("dm-send").onclick = async () => {
+  const input = document.getElementById("dm-input");
+  const text = input.value.trim();
+  const user = auth.currentUser;
+
+  if (!text || !user || !currentChatId) return;
+
+  const msgRef = doc(collection(db, "dmChats", currentChatId, "messages"));
+
+  await setDoc(msgRef, {
+    text,
+    sender: user.uid,
+    timestamp: serverTimestamp()
+  });
+
+  input.value = "";
+};
