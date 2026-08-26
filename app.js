@@ -66,6 +66,7 @@ const themeRadios = document.querySelectorAll("input[name='theme-mode']");
 // DM chat globals
 let currentChatId = null;
 let unsubscribeDM = null;
+let lastOpenedChat = null;
 
 
 // Switch login/signup
@@ -183,9 +184,14 @@ settingsBtn.onclick = () => {
 
 messagesBtn.onclick = () => {
   hidePanels();
-  messagesPanel.classList.remove("hidden");
   messagesBtn.classList.add("active");
-  loadConversationList();
+
+  if (lastOpenedChat) {
+    openDMChat(lastOpenedChat.uid, lastOpenedChat.username);
+  } else {
+    messagesPanel.classList.remove("hidden");
+    loadConversationList();
+  }
 };
 
 
@@ -336,6 +342,8 @@ async function openDMChat(otherUid, otherUsername) {
 
   const chatId = [user.uid, otherUid].sort().join("_");
   currentChatId = chatId;
+
+  lastOpenedChat = { uid: otherUid, username: otherUsername };
 
   hidePanels();
   dmPanel.classList.remove("hidden");
